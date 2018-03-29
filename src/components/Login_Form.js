@@ -1,7 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import {form, FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import RequestHandler from '../request_handler';
 import FormValidator from "../Form_validation";
+
 import validator from "validator";
 const Form_validator = new FormValidator([
   {
@@ -16,7 +18,7 @@ const Form_validator = new FormValidator([
     validWhen: false,
     message: "Please enter your password."
   }]);
-export default class LoginForm extends React.Component {
+  class LoginForm extends React.Component {
   constructor() {
     super();
     this.onChange=this.onChange.bind(this);
@@ -26,7 +28,7 @@ export default class LoginForm extends React.Component {
       password: ''
     };
     this.validation=null;
-  }
+    }
   onChange(name,value){
     this.setState({[name]:value});
   }
@@ -36,6 +38,8 @@ export default class LoginForm extends React.Component {
     this.forceUpdate();
     if(this.validation.isValid){
       RequestHandler.login(this.state.username_email,this.state.password);
+      this.props.history.push('/dashboard');
+
     }
   }
   render() {
@@ -52,6 +56,7 @@ export default class LoginForm extends React.Component {
               ? this.validation.username_email.message
               : ""}
           </span>
+
       </FormGroup>
 
       <FormGroup controlId="formControlsPassword" className={
@@ -69,6 +74,8 @@ export default class LoginForm extends React.Component {
       </FormGroup>
 
       <Button type="submit">Submit</Button>
+
     </form>);
   }
 }
+export default withRouter(LoginForm);

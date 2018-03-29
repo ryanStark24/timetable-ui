@@ -16,6 +16,7 @@ export default class RequestHandler {
         localStorage.setItem('name', data.User.name);
         localStorage.setItem('id', data.User.id);
         localStorage.setItem('token', data.webToken);
+
       })
       .catch(err => console.log(err.response));
 

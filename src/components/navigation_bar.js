@@ -1,9 +1,9 @@
 import React from 'react';
-import {Route} from 'react-router-dom';
+import {Route,withRouter} from 'react-router-dom';
 import {Navbar, Button} from 'react-bootstrap';
 // import styles from './navigation_bar.css';
 import LoginModal from './Login_Modal';
-export default class NavigationBar extends React.Component {
+ class NavigationBar extends React.Component {
   constructor() {
     super();
     this.handleShow = this.handleShow.bind(this);
@@ -43,3 +43,4 @@ export default class NavigationBar extends React.Component {
     );
   }
 }
+export default withRouter(NavigationBar);
