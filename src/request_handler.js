@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base_path = 'http://localhost:3000';
+let base_path = 'https://time-table-generator-flaky.herokuapp.com';
 
 export default class RequestHandler {
 
