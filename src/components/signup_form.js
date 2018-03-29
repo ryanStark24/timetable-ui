@@ -79,9 +79,7 @@ export default class SignupForm extends React.Component {
     event.preventDefault();
     this.validation = Form_validator.validate(this.state);
     this.forceUpdate();
-    console.log(this.validation);
     if (this.validation.isValid) {
-      console.log("valid");
       RequestHandler.signup(this.state);
     }
   }
