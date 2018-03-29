@@ -1,79 +1,242 @@
-import React from 'react';
-import {form,FormGroup,FormControl,HelpBlock,ControlLabel,Button} from 'react-bootstrap';
-import RequestHandler from '../request_handler';
-export default class SignupForm extends React.Component{
-constructor(){
-  super();
-  this.handleSubmit=this.handleSubmit.bind(this);
-  this.state={
-    username:"",
-    firstname:"",
-    lastname:"",
-    email:"",
-    password:"",
-    country:"",
-    college:"",
-    shouldLoad:false
-  };
-}
+import React from "react";
+import { form, FormGroup, FormControl, Button } from "react-bootstrap";
+import RequestHandler from "../request_handler";
+import FormValidator from "../Form_validation";
+import validator from "validator";
+const Form_validator = new FormValidator([
+  {
+    field: "username",
+    method: validator.isEmpty,
+    validWhen: false,
+    message: "Please provide an username."
+  },
+  {
+    field: "firstname",
+    method: validator.isEmpty,
+    validWhen: false,
+    message: "Please provide an firstname."
+  },
+  {
+    field: "lastname",
+    method: validator.isEmpty,
+    validWhen: false,
+    message: "Please provide an lastname."
+  },
+  {
+    field: "password",
+    method: validator.isEmpty,
+    validWhen: false,
+    message: "Please provide a password."
+  },
+  {
+    field: "college",
+    method: validator.isEmpty,
+    validWhen: false,
+    message: "Please provide your college name."
+  },
+  {
+    field: "country",
+    method: validator.isEmpty,
+    validWhen: false,
+    message: "Please provide your country name."
+  },
 
-handleSubmit(event){
-  let target=event.target;
-  let username=target.username.value.trim();
-  let firstname=target.firstname.value.trim();
-  let lastname=target.lastname.value.trim();
-  let email=target.email.value.trim();
-  let password=target.password.value.trim();
-  let country=target.country.value.trim();
-  let college=target.college.value.trim();
-    this.setState({username,firstname,lastname,email,password,country,college},()=>{
-      let Data={username,firstname,lastname,email,password,country,college};
-      this.setState({shouldLoad:RequestHandler.signup(Data)});
-    });
+  {
+    field: "email",
+    method: validator.isEmpty,
+    validWhen: false,
+    message: "Please provide an email."
+  },
+  {
+    field: "email",
+    method: validator.isEmail,
+    validWhen: true,
+    message: "That is not a valid email."
+  }
+]);
 
-}
+export default class SignupForm extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.state = {
+      username: "",
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      country: "",
+      college: ""
+    };
+    this.validation = undefined; //Form_validator.validate(this.state);
+  }
 
+  onChange(value, name) {
+    this.setState({ [name]: value });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    this.validation = Form_validator.validate(this.state);
+    this.forceUpdate();
+    console.log(this.validation);
+    if (this.validation.isValid) {
+      console.log("valid");
+      RequestHandler.signup(this.state);
+    }
+  }
 
-  render(){
-    return(
-      <div className="container">
+  render() {
+    return (
       <form onSubmit={this.handleSubmit}>
-         <FormGroup controlId="username" >
-                 <ControlLabel>Username</ControlLabel>
-                 <FormControl type="text"    placeholder="Enter a Username" />
 
-         </FormGroup>
-         <FormGroup controlId="firstname" >
-                   <ControlLabel>FirstName</ControlLabel>
-                   <FormControl type="text"    placeholder="Enter your FirstName" />
-
-         </FormGroup>
-         <FormGroup controlId="lastname" >
-                  <ControlLabel>LastName</ControlLabel>
-                  <FormControl type="text"    placeholder="Enter your LastName" />
-
-         </FormGroup>
-         <FormGroup controlId="email" >
-                <ControlLabel>Email</ControlLabel>
-                <FormControl type="text"    placeholder="Enter Email id" />
-         </FormGroup>
-          <FormGroup controlId="password">
-                <ControlLabel>Password</ControlLabel>
-                <FormControl  type="password" placeholder="Enter Password" />
-          </FormGroup>
-
-        <FormGroup controlId="country" >
-              <ControlLabel>Country</ControlLabel>
-              <FormControl type="text"    placeholder="Enter your Country" />
+        <FormGroup
+          controlId="username"
+          className={
+            this.validation !== undefined
+              ? this.validation.username.isInvalid && "has-error"
+              : ""
+          }
+        >
+          <FormControl
+            type="text"
+            name="username"
+            value={this.state.username}
+            onChange={e => this.onChange(e.target.value, e.target.name)}
+            placeholder="Enter a Username"
+          />
+          <span className="help-block">
+            {this.validation !== undefined
+              ? this.validation.username.message
+              : ""}
+          </span>
         </FormGroup>
-            <FormGroup controlId="college" >
-                <ControlLabel>College</ControlLabel>
-                <FormControl type="text"    placeholder="Enter your College Name" />
+        <FormGroup
+          controlId="firstname"
+          className={
+            this.validation !== undefined
+              ? this.validation.firstname.isInvalid && "has-error"
+              : ""
+          }
+        >
+          <FormControl
+            type="text"
+            placeholder="Enter your FirstName"
+            name="firstname"
+            value={this.state.firstname}
+            onChange={e => this.onChange(e.target.value, e.target.name)}
+          />
+          <span className="help-block">
+            {this.validation !== undefined
+              ? this.validation.firstname.message
+              : ""}
+          </span>
+        </FormGroup>{" "}
+        <FormGroup
+          controlId="lastname"
+          className={
+            this.validation !== undefined
+              ? this.validation.lastname.isInvalid && "has-error"
+              : ""
+          }
+        >
+          <FormControl
+            type="text"
+            placeholder="Enter your LastName"
+            name="lastname"
+            value={this.state.lastname}
+            onChange={e => this.onChange(e.target.value, e.target.name)}
+          />
+          <span className="help-block">
+            {this.validation !== undefined
+              ? this.validation.lastname.message
+              : ""}
+          </span>
         </FormGroup>
-
-         <Button type="submit" >Submit</Button>
-       </form>
-</div>
+        <FormGroup
+          controlId="email"
+          className={
+            this.validation !== undefined
+              ? this.validation.email.isInvalid && "has-error"
+              : ""
+          }
+        >
+          <FormControl
+            type="text"
+            placeholder="Enter Email id"
+            name="email"
+            value={this.state.email}
+            onChange={e => this.onChange(e.target.value, e.target.name)}
+          />
+          <span className="help-block">
+            {this.validation !== undefined ? this.validation.email.message : ""}
+          </span>
+        </FormGroup>{" "}
+        <FormGroup
+          controlId="password"
+          className={
+            this.validation !== undefined
+              ? this.validation.password.isInvalid && "has-error"
+              : ""
+          }
+        >
+          <FormControl
+            type="password"
+            placeholder="Enter Password"
+            name="password"
+            value={this.state.password}
+            onChange={e => this.onChange(e.target.value, e.target.name)}
+          />
+          <span className="help-block">
+            {this.validation !== undefined
+              ? this.validation.password.message
+              : ""}
+          </span>
+        </FormGroup>
+        <FormGroup
+          controlId="country"
+          className={
+            this.validation !== undefined
+              ? this.validation.country.isInvalid && "has-error"
+              : ""
+          }
+        >
+          <FormControl
+            type="text"
+            placeholder="Enter your Country"
+            name="country"
+            value={this.state.country}
+            onChange={e => this.onChange(e.target.value, e.target.name)}
+          />
+          <span className="help-block">
+            {this.validation !== undefined
+              ? this.validation.country.message
+              : ""}
+          </span>
+        </FormGroup>{" "}
+        <FormGroup
+          controlId="college"
+          className={
+            this.validation !== undefined
+              ? this.validation.college.isInvalid && "has-error"
+              : ""
+          }
+        >
+          <FormControl
+            type="text"
+            placeholder="Enter your College Name"
+            name="college"
+            value={this.state.college}
+            onChange={e => this.onChange(e.target.value, e.target.name)}
+          />
+          <span className="help-block">
+            {this.validation !== undefined
+              ? this.validation.college.message
+              : ""}
+          </span>
+        </FormGroup>{" "}
+        <Button type="submit"> Submit </Button>
+      </form>
     );
   }
 }
