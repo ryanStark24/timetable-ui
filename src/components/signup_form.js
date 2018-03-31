@@ -1,5 +1,5 @@
 import React from "react";
-import { form, FormGroup, FormControl, Button } from "react-bootstrap";
+import { Alert,form, FormGroup, FormControl, Button } from "react-bootstrap";
 import RequestHandler from "../request_handler";
 import FormValidator from "../Form_validation";
 import validator from "validator";
@@ -69,7 +69,9 @@ export default class SignupForm extends React.Component {
       country: "",
       college: ""
     };
-    this.validation = undefined; //Form_validator.validate(this.state);
+    this.validation = undefined;
+      this.isDisabled=false;
+      this.success=false;
   }
 
   onChange(value, name) {
@@ -77,10 +79,11 @@ export default class SignupForm extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
+      this.isDisabled=true;
     this.validation = Form_validator.validate(this.state);
     this.forceUpdate();
     if (this.validation.isValid) {
-      RequestHandler.signup(this.state);
+      RequestHandler.signup(this.state,()=>this.success=true);
     }
   }
 
@@ -233,7 +236,10 @@ export default class SignupForm extends React.Component {
               : ""}
           </span>
         </FormGroup>{" "}
-        <Button type="submit"> Submit </Button>
+        <Button disabled={this.isDisabled}type="submit"> {this.isDisabled?'Please wait...':'Submit'} </Button>
+          {this.success?<Alert bsStyle="success">
+    <strong>Signup Successful, you can login Now!</strong>
+  </Alert>:''}
       </form>
     );
   }

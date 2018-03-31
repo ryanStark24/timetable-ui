@@ -28,19 +28,20 @@ const Form_validator = new FormValidator([
       password: ''
     };
     this.validation=null;
+    this.isDisabled=false;
+
     }
   onChange(name,value){
     this.setState({[name]:value});
   }
   handleSubmit(event) {
     event.preventDefault();
+    this.isDisabled=true;
     this.validation=Form_validator.validate(this.state);
     this.forceUpdate();
     if(this.validation.isValid){
-      RequestHandler.login(this.state.username_email,this.state.password);
-      this.props.history.push('/dashboard');
-
-    }
+       RequestHandler.login(this.state.username_email,this.state.password,()=>  this.props.history.push('/dashboard'));
+        }
   }
   render() {
     return (<form onSubmit={this.handleSubmit}>
@@ -73,7 +74,7 @@ const Form_validator = new FormValidator([
           </span>
       </FormGroup>
 
-      <Button type="submit">Submit</Button>
+      <Button disabled={this.isDisabled}type="submit">{this.isDisabled?'Please wait...':'Submit'}</Button>
 
     </form>);
   }

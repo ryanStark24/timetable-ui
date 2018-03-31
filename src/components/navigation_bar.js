@@ -34,10 +34,14 @@ import LoginModal from './Login_Modal';
           < Navbar.Collapse >
 
             <Navbar.Text pullRight>
-              <Button onClick={this.handleShow}>
-                Login < /Button> < /Navbar.Text> < LoginModal show = {this.state.show}
-                hide = {this.handleHide}
-                />
+              {!sessionStorage.getItem('token')?'':"Welcome, " + sessionStorage.getItem('name')}
+               <span>&nbsp;&nbsp;&nbsp;</span>
+              {!sessionStorage.getItem('token')? <Button onClick={this.handleShow}>
+                Login </Button> :<Button bsStyle="danger"onClick={()=>{sessionStorage.clear();this.props.history.push('/');}}> Logout </Button>}
+                < /Navbar.Text>
+                < LoginModal show = {this.state.show}
+               hide = {this.handleHide}
+               />
         < /Navbar.Collapse>
         < /Navbar>
     );
