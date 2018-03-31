@@ -69,8 +69,10 @@ componentWillMount(){
 
     removeClick(i) {
         let Sections = [...this.state.Sections];
+        let open = [...this.state.open];
         Sections.splice(i, 1);
-        this.setState({ Sections });
+        open.splice(i, 1);
+        this.setState({ Sections,open });
     }
 
     handleSubmit(event) {

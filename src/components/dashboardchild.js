@@ -73,8 +73,10 @@ onChange(name,value,i){
 }
     removeClick(i) {
         let subjects = [...this.state.subjects];
+        let open=[...this.state.open];
         subjects.splice(i, 1);
-        this.setState({ subjects });
+        open.splice(i, 1);
+        this.setState({ subjects,open });
     }
 
     GiveSubjects() {
