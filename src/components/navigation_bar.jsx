@@ -4,8 +4,8 @@ import {Navbar, Button} from 'react-bootstrap';
 // import styles from './navigation_bar.css';
 import LoginModal from './Login_Modal';
  class NavigationBar extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleShow = this.handleShow.bind(this);
     this.handleHide = this.handleHide.bind(this);
 
@@ -27,10 +27,10 @@ import LoginModal from './Login_Modal';
               history.push('/')
             }}>
             Timetable Generator
-        < /Navbar.Brand>
+        </Navbar.Brand>
     )}/>
-        < Navbar.Toggle/>
-        < /Navbar.Header>
+        <Navbar.Toggle/>
+        </Navbar.Header>
           < Navbar.Collapse >
 
             <Navbar.Text pullRight>
@@ -38,12 +38,12 @@ import LoginModal from './Login_Modal';
                <span>&nbsp;&nbsp;&nbsp;</span>
               {!sessionStorage.getItem('token')? <Button onClick={this.handleShow}>
                 Login </Button> :<Button bsStyle="danger"onClick={()=>{sessionStorage.clear();this.props.history.push('/');}}> Logout </Button>}
-                < /Navbar.Text>
+                </Navbar.Text>
                 < LoginModal show = {this.state.show}
                hide = {this.handleHide}
                />
-        < /Navbar.Collapse>
-        < /Navbar>
+        </Navbar.Collapse>
+        </Navbar>
     );
   }
 }
