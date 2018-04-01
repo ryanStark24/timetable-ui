@@ -12,4 +12,3 @@ const App = () => (<Router basename={process.env.PUBLIC_URL} >
 </Router>);
 
 export default App;
-// <Route exact path='/dashboard' component={DashBoard}/>

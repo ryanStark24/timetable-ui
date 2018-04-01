@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert,form, FormGroup, FormControl, Button } from "react-bootstrap";
+import { form, FormGroup, FormControl, Button } from "react-bootstrap";
 import RequestHandler from "../request_handler";
 import FormValidator from "../Form_validation";
 import validator from "validator";
@@ -83,7 +83,11 @@ export default class SignupForm extends React.Component {
     this.validation = Form_validator.validate(this.state);
     this.forceUpdate();
     if (this.validation.isValid) {
-      RequestHandler.signup(this.state,()=>this.success=true);
+      RequestHandler.signup(this.state,()=>{this.success=true;this.forceUpdate();
+      });
+    }else{
+      this.isDisabled=false;
+      this.forceUpdate();
     }
   }
 
@@ -236,10 +240,10 @@ export default class SignupForm extends React.Component {
               : ""}
           </span>
         </FormGroup>{" "}
-        <Button disabled={this.isDisabled}type="submit"> {this.isDisabled?'Please wait...':'Submit'} </Button>
-          {this.success?<Alert bsStyle="success">
+        <Button bsStyle={this.success?'success':'default'}disabled={this.isDisabled}type="submit"> {this.isDisabled?this.success?'SuccessFully Registered':'Please wait...':'Submit'} </Button>
+          {/* {this.success?<Alert bsStyle="success">
     <strong>Signup Successful, you can login Now!</strong>
-  </Alert>:''}
+  </Alert>:''} */}
       </form>
     );
   }

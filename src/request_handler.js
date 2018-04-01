@@ -16,7 +16,7 @@ export default class RequestHandler {
         if (callback instanceof Function)
           callback();
       })
-      .catch(err => console.log(err.response));
+      .catch(err => console.log(err.msg));
 
   }
   static signup(Data, callback) {
@@ -27,7 +27,7 @@ export default class RequestHandler {
         if (callback instanceof Function)
           callback();
       })
-      .catch(err => console.log(err.response));
+      .catch(err => console.log(err.msg));
   }
 
 }
