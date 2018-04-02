@@ -13,12 +13,7 @@ class DashChild extends React.Component {
         this.removeClick=this.removeClick.bind(this);
         this.addClick=this.addClick.bind(this);
     }
-    componentDidMount() {
-        this.props.onRef(this)
-      }
-      componentWillUnmount() {
-        this.props.onRef(undefined)
-      }
+  
     createUI() {
         return this.state.subjects.map((el, i) =>
         <Panel id="collapsible-panel-subject"  onClick={this.panelClicked.bind(this,i)}eventKey={i} key={i}>
@@ -81,7 +76,7 @@ onChange(name,value,i){
 
     GiveSubjects() {
 
-       return {subjects:this.state.subjects,index:this.props.index};
+       return this.state.subjects;
     }
 
     render() {
@@ -91,7 +86,7 @@ onChange(name,value,i){
                 {this.createUI()}
                 </PanelGroup>
                 <Button onClick={this.addClick}>{this.state.subjects.length === 0?"Add Subject":"Add another subject"}</Button>
-                <Button type="submit"  onClick={this.props.SubjectsSubmit}>save Subjects</Button>
+               
          </div>
         );
     }

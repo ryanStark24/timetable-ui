@@ -5,9 +5,7 @@ import NavigationBar from './navigation_bar';
 import SignupForm from './signup_form';
 
 class Homepage extends Component {
-  componentWillMount(){
-     if(sessionStorage.getItem('token')) this.props.history.push('/dashboard');
-  }
+
 
   render() {
     return (<div>

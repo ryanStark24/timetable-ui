@@ -25,10 +25,11 @@ const Form_validator = new FormValidator([
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       username_email: '',
-      password: ''
+      password: '',
+      validation:null,
+      isDisabled:false
     };
-    this.validation=null;
-    this.isDisabled=false;
+  
 
     }
   onChange(name,value){
@@ -36,45 +37,47 @@ const Form_validator = new FormValidator([
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.isDisabled=true;
-    this.validation=Form_validator.validate(this.state);
-    this.forceUpdate();
-    if(this.validation.isValid){
-       RequestHandler.login(this.state.username_email,this.state.password,()=>  this.props.history.push('/dashboard'));
-        }
+    this.state.validation=Form_validator.validate({username_email:this.state.username_email,password:this.state.password});
+    if(this.state.validation.isValid){
+      this.setState({isDisabled:true});
+       RequestHandler.login(this.state.username_email,this.state.password,()=>this.changePage());
+      }
+  }
+  changePage(){
+    this.props.history.push('/dashboard');
   }
   render() {
     return (<form onSubmit={this.handleSubmit}>
       <FormGroup controlId="username_email" className={
-        this.validation !== null
-          ? this.validation.username_email.isInvalid && "has-error"
+        this.state.validation !== null
+          ? this.state.validation.username_email.isInvalid && "has-error"
           : ""
       }>
         <ControlLabel>username/email</ControlLabel>
         <FormControl type="text" name="username_email"placeholder="Enter Username or Email id" onChange={e=> this.onChange(e.target.name, e.target.value)}/>
           <span className="help-block">
-            {this.validation !== null
-              ? this.validation.username_email.message
+            {this.state.validation !== null
+              ? this.state.validation.username_email.message
               : ""}
           </span>
 
       </FormGroup>
 
       <FormGroup controlId="formControlsPassword" className={
-        this.validation !== null
-          ? this.validation.password.isInvalid && "has-error"
+        this.state.validation !== null
+          ? this.state.validation.password.isInvalid && "has-error"
           : ""
       }>
         <ControlLabel>Password</ControlLabel>
         <FormControl name="password" type="password" placeholder="Enter password"onChange={e=> this.onChange(e.target.name, e.target.value)}/>
           <span className="help-block">
-            {this.validation !== null
-              ? this.validation.password.message
+            {this.state.validation !== null
+              ? this.state.validation.password.message
               : ""}
           </span>
       </FormGroup>
 
-      <Button disabled={this.isDisabled}type="submit">{this.isDisabled?'Please wait...':'Submit'}</Button>
+      <Button disabled={this.state.isDisabled}type="submit">{this.state.isDisabled?'Please wait...':'Submit'}</Button>
 
     </form>);
   }

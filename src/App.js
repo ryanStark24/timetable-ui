@@ -1,12 +1,13 @@
 import React from 'react';
-import {BrowserRouter as Router, Route,Switch,Redirect} from 'react-router-dom'
+import {BrowserRouter as Router,Switch} from 'react-router-dom'
 import Homepage from './components/Homepage';
 import DashBoard from './components/dashboard';
+import AuthCheck from './components/AuthCheck';
+import IsLoggedIn from './components/IsLoggedIn';
 const App = () => (<Router basename={process.env.PUBLIC_URL} >
   <Switch>
-    {sessionStorage.getItem('token')?  (<Route exact strict path="/dashboard" component={DashBoard}/>):(<Redirect from="/dashboard" to="/" />)}
-
-  <Route exact strict  path="/" component={Homepage}/>
+  <AuthCheck path="/dashboard" component={DashBoard}/>
+  <IsLoggedIn path ='/' component={Homepage}/>
 
   </Switch>
 </Router>);

@@ -11,9 +11,7 @@ class DashBoard extends React.Component {
         this.onChange=this.onChange.bind(this);
         this.SubjectsSubmit = this.SubjectsSubmit.bind(this);
     }
-componentWillMount(){
-   if(!sessionStorage.getItem('token')) this.props.history.push('/');
-}
+
 
     createUI() {
 
@@ -34,7 +32,7 @@ componentWillMount(){
             </FormGroup>
 
             <Button onClick={this.removeClick.bind(this, i)}>{"Remove this section"}</Button>
-                <DashChild onRef={ref=>this.child=ref} SubjectsSubmit={this.SubjectsSubmit} index={i}/>
+                <DashChild ref={"subjectChild"+i}  SubjectsSubmit={this.SubjectsSubmit} index={i}/>
               </Panel.Body>
                       </Panel>
 
@@ -48,12 +46,14 @@ componentWillMount(){
        this.setState({open});
      }
    SubjectsSubmit(){
-     let data=this.child.GiveSubjects();
-     let index=data.index;
-     let Subjects=data.subjects;
-     let Sections=[...this.state.Sections];
-     Sections[index]["subjects"]=Subjects;
-     this.setState({Sections});
+       for(let ref in this.refs){
+       let child=this.refs[ref];
+        let Subjects=child.GiveSubjects();
+        let Sections=[...this.state.Sections];
+        Sections[child.props.index]["subjects"]=Subjects;
+        this.setState({Sections});
+       }
+     
    }
 
     onChange(name,value,i) {
@@ -92,7 +92,7 @@ componentWillMount(){
                 {this.createUI()}
                 </PanelGroup>
                 <Button onClick={this.addClick.bind(this)}>{this.state.Sections.length===0?'Add Section':'Add another section'}</Button>
-                <Button type="submit">Submit</Button>
+                <Button onClick={this.SubjectsSubmit}>Submit</Button>
 
             </form>
             </Col>
