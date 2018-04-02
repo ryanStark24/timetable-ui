@@ -69,7 +69,9 @@ export default class SignupForm extends React.Component {
       country: "",
       college: ""
     };
-    this.validation = undefined; //Form_validator.validate(this.state);
+    this.validation = undefined;
+      this.isDisabled=false;
+      this.success=false;
   }
 
   onChange(value, name) {
@@ -77,10 +79,15 @@ export default class SignupForm extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
+      this.isDisabled=true;
     this.validation = Form_validator.validate(this.state);
     this.forceUpdate();
     if (this.validation.isValid) {
-      RequestHandler.signup(this.state);
+      RequestHandler.signup(this.state,()=>{this.success=true;this.forceUpdate();
+      });
+    }else{
+      this.isDisabled=false;
+      this.forceUpdate();
     }
   }
 
@@ -233,7 +240,10 @@ export default class SignupForm extends React.Component {
               : ""}
           </span>
         </FormGroup>{" "}
-        <Button type="submit"> Submit </Button>
+        <Button bsStyle={this.success?'success':'default'}disabled={this.isDisabled}type="submit"> {this.isDisabled?this.success?'SuccessFully Registered':'Please wait...':'Submit'} </Button>
+          {/* {this.success?<Alert bsStyle="success">
+    <strong>Signup Successful, you can login Now!</strong>
+  </Alert>:''} */}
       </form>
     );
   }

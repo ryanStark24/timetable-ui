@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
 import {Grid, Row, Col, Jumbotron} from 'react-bootstrap';
 import NavigationBar from './navigation_bar';
 import SignupForm from './signup_form';
 
 class Homepage extends Component {
+
 
   render() {
     return (<div>
@@ -26,4 +28,4 @@ class Homepage extends Component {
 
 }
 
-export default Homepage;
+export default withRouter(Homepage);
