@@ -1,8 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import DashChild from './dashboardchild';
-import {Panel,form, FormGroup, FormControl, ControlLabel, Button,Row,Col,PanelGroup } from 'react-bootstrap';
+import {form, FormGroup, FormControl, ControlLabel, Button,Row,Col,Tabs,Tab } from 'react-bootstrap';
 import NavigationBar from './navigation_bar';
+
+
+
 class DashBoard extends React.Component {
     constructor(props) {
         super(props);
@@ -18,14 +21,8 @@ class DashBoard extends React.Component {
         return this.state.Sections.map((el, i) =>
 
 
-        <Panel id="collapsible-panel-section"  onClick={this.panelClicked.bind(this,i)} eventKey={i} key={i}>
-        <Panel.Heading  >
-          <Panel.Title toggle>
-          <Row><Col md={5} xs={6}>{this.state.Sections[i].section_name.length===0?'Click Me to Enter Section details':this.state.Sections[i].section_name}</Col> <Col md={1} mdOffset={6} xs={1} xsOffset={5}> {this.state.open[i]?<span className="glyphicon glyphicon-menu-up" aria-hidden="true"></span>:<span className="glyphicon glyphicon-menu-down" aria-hidden="true"></span>}</Col></Row>
-            </Panel.Title>
-          </Panel.Heading>
-
-          <Panel.Body collapsible>
+        <Tab eventKey={i} title={this.state.Sections[i].section_name.length===0?'Click Me to Enter Section details':this.state.Sections[i].section_name}  >
+          
             <FormGroup controlId="Sections">
               <ControlLabel>Section Name</ControlLabel>
               <FormControl type="text" name="section_name" value={this.state.Sections[i].section_name}  onChange={el=>this.onChange(el.target.name,el.target.value,i)}/>
@@ -33,8 +30,7 @@ class DashBoard extends React.Component {
 
             <Button onClick={this.removeClick.bind(this, i)}>{"Remove this section"}</Button>
                 <DashChild ref={"subjectChild"+i}  SubjectsSubmit={this.SubjectsSubmit} index={i}/>
-              </Panel.Body>
-                      </Panel>
+           </Tab>
 
 
 
@@ -87,13 +83,14 @@ class DashBoard extends React.Component {
           <Row>
             <Col md={6} mdOffset={2}>
             <form onSubmit={this.handleSubmit}>
-
-            <PanelGroup accordion id="accordion-example">
+            
+           <Tabs  id="uncontrolled-tab-example">
                 {this.createUI()}
-                </PanelGroup>
+                </Tabs>
+                         
                 <Button onClick={this.addClick.bind(this)}>{this.state.Sections.length===0?'Add Section':'Add another section'}</Button>
                 <Button onClick={this.SubjectsSubmit}>Submit</Button>
-
+               
             </form>
             </Col>
             </Row>
