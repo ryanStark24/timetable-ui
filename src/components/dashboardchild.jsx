@@ -10,16 +10,17 @@ class DashChild extends React.Component {
         };
 
         this.onChange=this.onChange.bind(this);
-        this.removeClick=this.removeClick.bind(this);
         this.addClick=this.addClick.bind(this);
+        this.removeClick=this.removeClick.bind(this);
     }
   
     createUI() {
+        let me=this;
         return this.state.subjects.map((el, i) =>
-        <Panel id="collapsible-panel-subject"  onClick={this.panelClicked.bind(this,i)}eventKey={i} key={i}>
+        <Panel id="collapsible-panel-subject"  onClick={this.panelClicked.bind(this,i)} eventKey={i} key={i}>
         <Panel.Heading  >
           <Panel.Title toggle>
-          <Row><Col xs={5} md={5}>{this.state.subjects[i].subject.length ===0?'Click me to add subject Detail':this.state.subjects[i].subject}</Col> <Col md={1} mdOffset={6} xs={1} xsOffset={6}> {this.state.open[i]?<span className="glyphicon glyphicon-menu-up" aria-hidden="true"></span>:<span className="glyphicon glyphicon-menu-down" aria-hidden="true"></span>}</Col></Row>
+          <Row><Col xs={7} md={7}>{this.state.subjects[i].subject.length ===0?'Click me to add subject Detail':this.state.subjects[i].subject}</Col> <Col md={1} mdOffset={4} xs={1} xsOffset={4}> {this.state.open[i]?<span className="glyphicon glyphicon-menu-up" aria-hidden="true"></span>:<span className="glyphicon glyphicon-menu-down" aria-hidden="true"></span>}</Col></Row>
             </Panel.Title>
           </Panel.Heading>
 
@@ -42,7 +43,7 @@ class DashChild extends React.Component {
                     <Checkbox name="isLab" checked={this.state.subjects[i].isLab} onChange={el=>this.onChange(el.target.name,el.target.checked,i)}>Is this subject a lab?</Checkbox>
 
 
-                <Button onClick={this.removeClick}>Remove this Subject</Button>
+                <Button bsStyle="danger" onClick={me.removeClick.bind(i)}>Remove this Subject</Button>
                 </Panel.Body>
                       </Panel>
 
@@ -71,7 +72,9 @@ onChange(name,value,i){
         let open=[...this.state.open];
         subjects.splice(i, 1);
         open.splice(i, 1);
+
         this.setState({ subjects,open });
+     
     }
 
     GiveSubjects() {
@@ -82,11 +85,14 @@ onChange(name,value,i){
     render() {
         return (
           <div>
-            <PanelGroup accordion id="accordion-example">
+            <Button onClick={this.addClick}>{this.state.subjects.length === 0?"Add Subject":"Add another subject"}</Button>
+               <br/>
+               <br/>
+               
+            <PanelGroup accordion id="accordion">
                 {this.createUI()}
                 </PanelGroup>
-                <Button onClick={this.addClick}>{this.state.subjects.length === 0?"Add Subject":"Add another subject"}</Button>
-               
+              
          </div>
         );
     }
