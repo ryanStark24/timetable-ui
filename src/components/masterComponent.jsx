@@ -38,37 +38,54 @@ class DataProvider extends React.Component{
 }
 export default class MainComp extends React.Component{
 
-   
-
+   constructor(props){
+       super(props);
+       this.state={
+           activeKey:'first'
+       };
+       this.changeKey=this.changeKey.bind(this);
+   }
+changeKey(name){
+    switch(name){
+        case 'sections': this.setState({activeKey:'second'});break;
+        case 'Teachers':this.setState({activeKey:'third'});break;
+        case 'DaysDescription':this.setState({activeKey:'fourth'});break;
+        default:this.setState({activeKey:'first'});break;
+    }
+  
+}
     render(){
         return(
            
                 <DataProvider>
                     <React.Fragment>
                  <NavigationBar/>
-                 <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                 <TimeTableContext.Consumer>
+                 
+  
+                     {(context)=>( <Tab.Container id="left-tabs-example" activeKey={this.state.activeKey}>
                  <Row className="clearfix">
     <Col sm={2}>
       <Nav bsStyle="pills" stacked>
         <NavItem eventKey="first">Sections Details</NavItem>
-        <NavItem eventKey="second" >Teachers Details</NavItem>
-        <NavItem eventKey="third" >Days Description</NavItem>
-        <NavItem eventKey="fourth" >Additional Details</NavItem>
+        <NavItem disabled= {context.state.Sections.length === 0} eventKey="second" >Teachers Details</NavItem>
+        <NavItem  disabled= {context.state.Teachers.length === 0}eventKey="third" >Days Description</NavItem>
+        <NavItem disabled= {context.state.DaysDescription.length === 0}eventKey="fourth" >Additional Details</NavItem>
       </Nav>
     </Col>
     <Col sm={10}>
       <Tab.Content animation>
         <Tab.Pane eventKey="first">
         <h4> Enter Details of Every Section</h4>
-        <Section/>
+        <Section changeKey={this.changeKey}/>
         </Tab.Pane>
         <Tab.Pane eventKey="second">
         <h4> Enter Details of Teachers</h4>
-        <Teacher/>
+        <Teacher changeKey={this.changeKey}/>
         </Tab.Pane>
         <Tab.Pane eventKey="third">
         <h4> Enter  Days and their Periods</h4>
-        <DaysDescription/>
+        <DaysDescription changeKey={this.changeKey}/>
         </Tab.Pane>
         <Tab.Pane eventKey="fourth">
         <h4> Additional Details</h4>
@@ -77,7 +94,10 @@ export default class MainComp extends React.Component{
       </Tab.Content>
     </Col>
   </Row>
-  </Tab.Container>
+  </Tab.Container>)}
+
+  </TimeTableContext.Consumer>
+                
   </React.Fragment>
   </DataProvider>
  

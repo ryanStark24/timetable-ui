@@ -8,7 +8,6 @@ class Section extends React.Component {
     constructor(props) {
         super(props);
         this.state = { Sections:[] };
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange=this.onChange.bind(this);
         this.SubjectsSubmit = this.SubjectsSubmit.bind(this);
     }
@@ -50,7 +49,7 @@ class Section extends React.Component {
         context.setSections(Sections);
        
        }
-    
+    this.props.changeKey('sections');
      
    }
 
@@ -71,10 +70,7 @@ class Section extends React.Component {
          this.setState({ Sections });
     }
 
-    handleSubmit(event) {
-
-        event.preventDefault();
-    }
+  
 
     render() {
         return (

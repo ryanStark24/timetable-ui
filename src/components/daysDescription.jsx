@@ -47,6 +47,7 @@ addClick() {
   }
   submitDays(context){
     context.setDaysDescription(this.state.DaysDescription);
+    this.props.changeKey('DaysDescription');
   }
  
 render(){

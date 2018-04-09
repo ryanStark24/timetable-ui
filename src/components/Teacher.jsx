@@ -49,6 +49,7 @@ class Teacher extends React.Component {
     Teachers[child.props.index]["subjects"] = Subjects;
     context.setTeachers(Teachers);
     }
+    this.props.changeKey('Teachers');
    
   }
 
