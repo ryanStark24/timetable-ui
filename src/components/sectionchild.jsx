@@ -1,6 +1,6 @@
 import React from 'react';
 import {Panel, Checkbox, FormGroup, FormControl, ControlLabel, Button,Row,Col,PanelGroup } from 'react-bootstrap';
-class DashChild extends React.Component {
+class sectionChild extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +20,7 @@ class DashChild extends React.Component {
         <Panel id="collapsible-panel-subject"  onClick={this.panelClicked.bind(this,i)} eventKey={i} key={i}>
         <Panel.Heading  >
           <Panel.Title toggle>
-          <Row><Col xs={7} md={7}>{this.state.subjects[i].subject.length ===0?'Click me to add subject Detail':this.state.subjects[i].subject}</Col> <Col md={1} mdOffset={4} xs={1} xsOffset={4}> {this.state.open[i]?<span className="glyphicon glyphicon-menu-up" aria-hidden="true"></span>:<span className="glyphicon glyphicon-menu-down" aria-hidden="true"></span>}</Col></Row>
+          <Row><Col xs={10} md={10}>{this.state.subjects[i].subject.length ===0?'Click me to add subject Detail':this.state.subjects[i].subject}</Col> <Col md={1} xs={1} > {this.state.open[i]?<span className="glyphicon glyphicon-menu-up" aria-hidden="true"></span>:<span className="glyphicon glyphicon-menu-down" aria-hidden="true"></span>}</Col></Row>
             </Panel.Title>
           </Panel.Heading>
 
@@ -97,4 +97,4 @@ onChange(name,value,i){
         );
     }
 }
-export default DashChild;
+export default sectionChild;

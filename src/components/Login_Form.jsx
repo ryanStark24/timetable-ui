@@ -37,11 +37,15 @@ const Form_validator = new FormValidator([
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.state.validation=Form_validator.validate({username_email:this.state.username_email,password:this.state.password});
-    if(this.state.validation.isValid){
-      this.setState({isDisabled:true});
-       RequestHandler.login(this.state.username_email,this.state.password,()=>this.changePage());
-      }
+    this.setState({validation:Form_validator.validate({username_email:this.state.username_email,password:this.state.password})},
+    ()=>{
+      if(this.state.validation.isValid){
+        this.setState({isDisabled:true});
+         RequestHandler.login(this.state.username_email,this.state.password,()=>this.changePage());
+        }
+    }
+  );
+   
   }
   changePage(){
     this.props.history.push('/dashboard');

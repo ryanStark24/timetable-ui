@@ -1,12 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import DashChild from './dashboardchild';
-import {form, FormGroup, FormControl, ControlLabel, Button,Row,Col,Tabs,Tab,ButtonGroup,ButtonToolbar } from 'react-bootstrap';
-import NavigationBar from './navigation_bar';
+import SectionChild from './sectionchild';
+import { FormGroup, FormControl, ControlLabel, Button,Row,Col,Tabs,Tab,ButtonGroup,ButtonToolbar } from 'react-bootstrap';
+import {TimeTableContext} from './TimetableContext';
 
-
-
-class DashBoard extends React.Component {
+class Section extends React.Component {
     constructor(props) {
         super(props);
         this.state = { Sections:[] };
@@ -29,7 +27,7 @@ class DashBoard extends React.Component {
             </FormGroup>
             <Row>
                 <Col md={8}>
-            <DashChild ref={"subjectChild"+i}  SubjectsSubmit={this.SubjectsSubmit} index={i}/>
+            <SectionChild ref={"subjectChild"+i}  SubjectsSubmit={this.SubjectsSubmit} index={i}/>
             </Col>
             <Col md={4}>
             <Button  bsStyle="danger" onClick={this.removeClick.bind(this, i)}>{"Remove this section"}</Button>
@@ -42,14 +40,16 @@ class DashBoard extends React.Component {
         )
     }
  
-   SubjectsSubmit(){
+   SubjectsSubmit(context){
        for(let ref in this.refs){
        let child=this.refs[ref];
         let Subjects=child.GiveSubjects();
         let Sections=[...this.state.Sections];
         Sections[child.props.index]["subjects"]=Subjects;
-        this.setState({Sections});
+        context.setSections(Sections);
+       
        }
+    
      
    }
 
@@ -78,11 +78,10 @@ class DashBoard extends React.Component {
     render() {
         return (
            <div>
-           <NavigationBar/>
+          
           <Row>
-            <Col md={6} mdOffset={2}>
-            <form onSubmit={this.handleSubmit}>
-            
+            <Col md={6} >
+           
            <Tabs  id="uncontrolled-tab-example">
                 {this.createUI()}
                 </Tabs>
@@ -91,14 +90,16 @@ class DashBoard extends React.Component {
                 <Button bsStyle= "info" onClick={this.addClick.bind(this)}>{this.state.Sections.length===0?'Add Section':'Add another section'}</Button>
                 </ButtonGroup>
                 <ButtonGroup> 
-                <Button bsStyle="success" onClick={this.SubjectsSubmit}>Submit</Button>
+                 <TimeTableContext.Consumer>
+                     {(context)=>( <Button bsStyle="success" onClick={()=>this.SubjectsSubmit(context)}>Save</Button>)}
+                </TimeTableContext.Consumer>
                 </ButtonGroup>
                 </ButtonToolbar>
-            </form>
+          
             </Col>
             </Row>
             </div>
         );
     }
 }
-export default withRouter(DashBoard);
+export default withRouter(Section);
