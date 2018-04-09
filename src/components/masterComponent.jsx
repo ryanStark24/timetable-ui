@@ -63,7 +63,7 @@ changeKey(name){
                  <TimeTableContext.Consumer>
                  
   
-                     {(context)=>( <Tab.Container id="left-tabs-example" activeKey={this.state.activeKey}>
+                     {(context)=>( <Tab.Container id="left-tabs-example" onSelect={(e,any)=>this.setState({activeKey:e})} activeKey={this.state.activeKey}>
                  <Row className="clearfix">
     <Col sm={2}>
       <Nav bsStyle="pills" stacked>
@@ -75,7 +75,7 @@ changeKey(name){
     </Col>
     <Col sm={10}>
       <Tab.Content animation>
-        <Tab.Pane eventKey="first">
+        <Tab.Pane eventKey="first" >
         <h4> Enter Details of Every Section</h4>
         <Section changeKey={this.changeKey}/>
         </Tab.Pane>
