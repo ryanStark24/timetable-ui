@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import SectionChild from './sectionchild';
-import { FormGroup, FormControl, ControlLabel, Button,Row,Col,Tabs,Tab,ButtonGroup,ButtonToolbar } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, Button,Row,Col,Tabs,Tab,ButtonGroup,ButtonToolbar,Well } from 'react-bootstrap';
 import {TimeTableContext} from './TimetableContext';
 
 class Section extends React.Component {
@@ -20,7 +20,7 @@ class Section extends React.Component {
 
 
         <Tab eventKey={i} key={i} title={this.state.Sections[i].section_name.length===0?'Section '+(i+1):this.state.Sections[i].section_name}  >
-          
+            <Well>
             <FormGroup controlId="Sections">
               <ControlLabel>Section Name</ControlLabel>
               <FormControl type="text" name="section_name" value={this.state.Sections[i].section_name}  onChange={el=>this.onChange(el.target.name,el.target.value,i)}/>
@@ -33,6 +33,7 @@ class Section extends React.Component {
             <Button  bsStyle="danger" onClick={this.removeClick.bind(this, i)}>{"Remove this section"}</Button>
               </Col>
                 </Row>
+                </Well>
            </Tab>
 
 

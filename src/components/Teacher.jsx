@@ -1,6 +1,6 @@
 import React from 'react';
 // import Context from './context.jsx';
-import {  form, FormGroup, FormControl, ControlLabel,Button,ButtonToolbar,ButtonGroup, Row,Col ,Tab,Tabs} from 'react-bootstrap';
+import {  form, FormGroup, FormControl, ControlLabel,Button,ButtonToolbar,ButtonGroup, Row,Col ,Tab,Tabs,Well} from 'react-bootstrap';
 import Teacherchild from './teacherChild';
 import {TimeTableContext} from './TimetableContext';
 class Teacher extends React.Component {
@@ -16,7 +16,7 @@ class Teacher extends React.Component {
     return this.state.Teachers.map((el, i) =>
        
     <Tab eventKey={i} key={i} title={this.state.Teachers[i].name.length===0?'Teacher '+(i+1):this.state.Teachers[i].name}  >
-      
+      <Well>
           <FormGroup controlId="Teachers">
             <ControlLabel>Teacher Name</ControlLabel>
             <FormControl type="text" name="name" value={this.state.Teachers[i].name} onChange={el => this.onChange(el.target.name, el.target.value, i)} />
@@ -30,6 +30,7 @@ class Teacher extends React.Component {
           <Button bsStyle="danger" onClick={this.removeClick.bind(this, i)}>{"Remove  Teacher"}</Button>
           </Col>
                 </Row>
+                </Well>
           
 </Tab>
 
