@@ -31,11 +31,11 @@ export default class AdditionalDetails extends React.Component{
             <React.Fragment>
                  <Well>
                  <FormGroup controlId="totalPeriods">
-              <ControlLabel>Day</ControlLabel>
+              <ControlLabel>After Which Period do you want labs to be alloted?</ControlLabel>
               <FormControl type="number" name="totalPeriods" value={this.state.totalPeriods}  onChange={el=>this.onChange(el.target.name,el.target.value)}/>
             </FormGroup>
             <FormGroup controlId="lab_periods_after">
-              <ControlLabel>Period</ControlLabel>
+              <ControlLabel>Enter Total Periods in a week</ControlLabel>
               <FormControl type="number" name="lab_periods_after" value={this.state.lab_periods_after}  onChange={el=>this.onChange(el.target.name,el.target.value)}/>
             </FormGroup>
             <TimeTableContext.Consumer>
