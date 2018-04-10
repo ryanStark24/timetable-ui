@@ -1,8 +1,10 @@
-import React, { Component,createContext} from 'react';
+
+import React from 'react';
 // import Context from './context.jsx';
-import { Panel, form, FormGroup, FormControl, ControlLabel, Row, Col, PanelGroup, Jumbotron} from 'react-bootstrap';
-import Teacherchild from './Teacherchild';
-import {  Button,Card } from 'reactstrap'
+import {  form, FormGroup, FormControl, ControlLabel,Button,ButtonToolbar,ButtonGroup, Row,Col ,Tab,Tabs,Well} from 'react-bootstrap';
+import Teacherchild from './teacherChild';
+import {TimeTableContext} from './TimetableContext';
+
 class Teacher extends React.Component {
   constructor(props) {
     super(props);
@@ -14,28 +16,29 @@ class Teacher extends React.Component {
 
   createUI() {
     return this.state.Teachers.map((el, i) =>
-<Jumbotron>
-      <Panel id="collapsible-panel-section" onClick={this.panelClicked.bind(this, i)} eventKey={i} key={i}>
-        <Panel.Heading  >
-          <Panel.Title toggle>
-            <Row><Col md={5} xs={6}>{this.state.Teachers[i].name.length === 0 ? 'Click Me to Enter Teacher details' : this.state.Teachers[i].name}</Col> <Col md={1} mdOffset={6} xs={1} xsOffset={5}> {this.state.open[i] ? <span className="glyphicon glyphicon-menu-up" aria-hidden="true"></span> : <span className="glyphicon glyphicon-menu-down" aria-hidden="true"></span>}</Col></Row>
-          </Panel.Title>
-        </Panel.Heading>
+      
+    <Tab eventKey={i} key={i} title={this.state.Teachers[i].name.length===0?'Teacher '+(i+1):this.state.Teachers[i].name}  >
+      <Well>
 
-        <Panel.Body collapsible>
           <FormGroup controlId="Teachers">
             <ControlLabel>Teacher Name</ControlLabel>
             <FormControl type="text" name="name" value={this.state.Teachers[i].name} onChange={el => this.onChange(el.target.name, el.target.value, i)} />
           </FormGroup>
 
-          <Button color="primary" size="lg" block onClick={this.removeClick.bind(this, i)}>{"Remove Added Teacher"}</Button>
+          <Row>
+                <Col md={8}>
+                <Teacherchild  ref={"teacherChild"+i} SubjectsSubmit={this.SubjectTeachersSubmit} index={i} />
+      
+      </Col>
+      <Col md={4}>
+          <Button bsStyle="danger" onClick={this.removeClick.bind(this, i)}>{"Remove  Teacher"}</Button>
+          </Col>
+                </Row>
+                </Well>
+          
+</Tab>
 
-          <Teacherchild onRef={ref => this.child = ref} SubjectsSubmit={this.SubjectTeachersSubmit} index={i} />
-        </Panel.Body>
-      </Panel>
 
-
-</Jumbotron>
     )
   }
   panelClicked(i) {
@@ -43,19 +46,17 @@ class Teacher extends React.Component {
     open[i] = !open[i];
     this.setState({ open });
   }
-  SubjectTeachersSubmit() {
-    let data = this.child.GiveTeacherSubjects();
-    let index = data.index;
-    let Subjects = data.subjects;
-    let Teachers = [...this.state.Teachers];
-    Teachers[index]["subjects"] = Subjects;
-    this.setState({ Teachers });
-    console.log("Teachers");
-    
-    console.log(this.state.Teachers);
-    
-    //return this.state.Teachers;
 
+  SubjectTeachersSubmit(context) {
+    for(let ref in this.refs){
+      let child=this.refs[ref];
+    let Subjects = child.GiveTeacherSubjects();
+    let Teachers = [...this.state.Teachers];
+    Teachers[child.props.index]["subjects"] = Subjects;
+    context.setTeachers(Teachers);
+    }
+    this.props.changeKey('Teachers');
+   
 
   }
 
@@ -66,7 +67,8 @@ class Teacher extends React.Component {
   }
 
   addClick() {
-    this.setState(prevState => ({ Teachers: [...prevState.Teachers, { name: '', subjects: '' }], open: [...prevState.open, false] }));
+
+    this.setState(prevState => ({ Teachers: [...prevState.Teachers, { name: '', subjects:[] }], open: [...prevState.open, false] }));
 
   }
 
@@ -87,49 +89,34 @@ class Teacher extends React.Component {
 
   render() {
     return (
-   
-      //  <Context.Provider value={{teacherjson:this.state.Teachers}}>
-      //  {this.props.children}
 
+      <div>
          <Row>
-        <Col md={6} mdOffset={2}>
-          <form onSubmit={this.handleJSONdata}>
+            <Col md={6}>
+            <form onSubmit={this.handleSubmit}>
+      <Tabs  id="uncontrolled-tab">
+     {this.createUI()}
+                 
+        </Tabs>  
+        <ButtonToolbar>
+                <ButtonGroup>        
+                  <Button bsStyle="info"   onClick={this.addClick.bind(this)}>{this.state.Teachers.length === 0 ? 'Add Teacher' : 'Add another Teacher'}</Button>
+                  </ButtonGroup>
+                <ButtonGroup> 
+                <TimeTableContext.Consumer>
+                     {(context)=>( <Button bsStyle="success" onClick={()=>this.SubjectTeachersSubmit(context)}>Save</Button>)}
+                </TimeTableContext.Consumer>
+       </ButtonGroup>
+          
+                </ButtonToolbar>   
+                </form>         
+    </Col>
+    </Row>
+</div>
 
-            <PanelGroup accordion id="accordion-example">
-              {this.createUI()}
-            </PanelGroup>
-
-
-         
-        <Card body inverse>
-         {/* <CardTitle style={{ marginBottom: '2%',marginLeft: '32%' }}><h1><Label>Teachers Section</Label>
-  </h1></CardTitle>  */}
-            <Row>
-            <div style={{ marginTop: '15px' }}>
-              <Col sm="6">
-             
-                <Card body>
-
-                  <Button color="primary" size="lg" block onClick={this.addClick.bind(this)}>{this.state.Teachers.length === 0 ? 'Add Teacher' : 'Add another Teacher'}</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-
-                  <Button color="primary" size="lg" type="submit" block>Submit</Button>
-                </Card>
-              </Col>
-              </div>
-            </Row>
-            </Card>
-          </form>
-        </Col>
-      </Row>  
-    
-
-        // </Context.Provider> 
     );
   }
 }
 export default Teacher;
+
 

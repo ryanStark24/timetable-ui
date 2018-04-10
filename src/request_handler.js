@@ -30,4 +30,15 @@ export default class RequestHandler {
       .catch(err => console.log(err.msg));
   }
 
+  static generateTimeTable(Data,callback){
+   
+  return  axios.post(base_path + '/timetable',Data,{
+      headers:{ 'Content-Type': 'application/json',
+                'Authorization':'Bearer '+sessionStorage.getItem('token')
+    }
+    }).then(res=>{
+     if(callback instanceof Function) callback(res);
+    }).catch(err=>console.log(err));
+  }
+
 }
