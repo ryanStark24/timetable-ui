@@ -4,6 +4,7 @@ import Section from './section';
 import Teacher from './Teacher';
 import DaysDescription from './daysDescription';
 import AdditionalDetails from './additionalDetails';
+import TableUI from './tableUI';
 import {Tab,NavItem,Nav,Row,Col} from 'react-bootstrap';
 import {TimeTableContext} from './TimetableContext';
 import RequestHandler from '../request_handler';
@@ -23,6 +24,7 @@ class DataProvider extends React.Component{
         return(
             <TimeTableContext.Provider value={{
                 state:this.state,
+                result:{},
                 setSections :(Sections) =>this.setState({Sections},()=>console.log(this.state.Sections)),
                 setTeachers :(Teachers) =>this.setState({Teachers},()=>console.log(this.state.Teachers)),
                 setDaysDescription :(DaysDescription) =>this.setState({DaysDescription},()=>console.log(this.state.DaysDescription)),
@@ -69,8 +71,8 @@ changeKey(name){
       <Nav bsStyle="pills" stacked>
         <NavItem eventKey="first">Sections Details</NavItem>
         <NavItem disabled= {context.state.Sections.length === 0} eventKey="second" >Teachers Details</NavItem>
-        <NavItem  disabled= {context.state.Teachers.length === 0}eventKey="third" >Days Description</NavItem>
-        <NavItem disabled= {context.state.DaysDescription.length === 0}eventKey="fourth" >Additional Details</NavItem>
+        <NavItem disabled= {context.state.Teachers.length === 0} eventKey="third" >Days Description</NavItem>
+        <NavItem disabled= {context.state.DaysDescription.length === 0} eventKey="fourth" >Additional Details</NavItem>
       </Nav>
     </Col>
     <Col sm={10}>
@@ -97,7 +99,7 @@ changeKey(name){
   </Tab.Container>)}
 
   </TimeTableContext.Consumer>
-                
+  <TableUI/>              
   </React.Fragment>
   </DataProvider>
  
