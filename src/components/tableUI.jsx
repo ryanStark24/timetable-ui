@@ -1,13 +1,12 @@
 import React from 'react';
 import {Table,thead,tr,Row,Col} from 'react-bootstrap';
-import {timetable} from './constants';
 export default class TableUI extends React.Component{
 
     
     createBodyUI(day){
       
         return day.periods.map((period,i)=>{
-                   return  <td> {period.subject}<br/>{"("+period.teacher+')'} </td>
+                   return  <td key={i}> {period.subject}<br/>{"("+period.teacher+')'} </td>
                 
         })
         }
@@ -16,7 +15,7 @@ export default class TableUI extends React.Component{
             let Timetable=section.timetable;
             return Timetable.map((day,i)=>{
              return (
-                 <React.Fragment>
+                 <React.Fragment key={i}>
                      <tr>
                  <td>{day.day}</td>
                  {this.createBodyUI(day)}
@@ -35,7 +34,7 @@ export default class TableUI extends React.Component{
               index=Timetable.indexOf(day);}
         }
         return Timetable[index].periods.map((period,i)=>{
-                return  <th> {'Period '+(i+1)} </th>
+                return  <th key={i}> {'Period '+(i+1)} </th>
             
                 
                 
@@ -49,9 +48,9 @@ export default class TableUI extends React.Component{
             <React.Fragment>
             <Row>
                 <Col mdOffset={2} md={10}>           
-              {timetable.timetable.map((section,index)=>{
+              {this.props.timetable.timetable.map((section,index)=>{
                   return (
-                      <React.Fragment>
+                      <React.Fragment key={index}>
                       <h4>{section.sectionName}</h4>
                     <Table striped bordered condensed hover>
                     <thead>

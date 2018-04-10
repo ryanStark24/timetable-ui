@@ -1,6 +1,7 @@
 import React from 'react';
 import {TimeTableContext} from './TimetableContext';
 import {Button,FormControl,FormGroup,ControlLabel,Well} from 'react-bootstrap';
+import RequestHandler from '../request_handler';
 export default class AdditionalDetails extends React.Component{
     constructor(props){
         super(props);
@@ -21,7 +22,8 @@ export default class AdditionalDetails extends React.Component{
         let status=window.confirm("Do you want to submit");
        if(status){
            this.setState({disable:true});
-           context.commit();
+           RequestHandler.generateTimeTable(context.state.data,(result)=>context.setResult(result));
+        
        }
     }
     render(){
