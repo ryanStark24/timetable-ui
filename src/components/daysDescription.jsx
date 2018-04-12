@@ -45,9 +45,12 @@ addClick() {
        DaysDescription.splice(i, 1);
        this.setState({ DaysDescription });
   }
+      
   submitDays(context){
+      if(this.state.DaysDescription.length ===0) window.alert('Please enter Days Description');else{
     context.setDaysDescription(this.state.DaysDescription);
     this.props.changeKey('DaysDescription');
+      }
   }
  
 render(){

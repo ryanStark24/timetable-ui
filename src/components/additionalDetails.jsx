@@ -17,6 +17,7 @@ export default class AdditionalDetails extends React.Component{
         
     }
     submitAdditional(context){
+        if(this.state.totalPeriods===0 ||this.state.lab_periods_after === 0 ) window.alert('Please provide details');else{
         context.setTotalPeriods(this.state.totalPeriods);
         context.setLabsAfter(this.state.lab_periods_after);
         let status=window.confirm("Do you want to submit");
@@ -25,6 +26,7 @@ export default class AdditionalDetails extends React.Component{
            RequestHandler.generateTimeTable(context.state.data,(result)=>context.setResult(result));
         
        }
+    }
     }
     render(){
         return(

@@ -26,11 +26,11 @@ class DataProvider extends React.Component{
             <TimeTableContext.Provider value={{
                 state:this.state,
                 result:null,
-                setSections :(Sections) =>this.setState({Sections}),
-                setTeachers :(Teachers) =>this.setState({Teachers}),
-                setDaysDescription :(DaysDescription) =>this.setState({DaysDescription}),
-                setTotalPeriods :(totalPeriods) =>this.setState({totalPeriods}),
-                setLabsAfter :(lab_periods_after) =>this.setState({lab_periods_after}),
+                setSections :(Sections) =>{let data ={...this.state.data};data['Sections']=Sections;this.setState({data})},
+                setTeachers :(Teachers) =>{let data ={...this.state.data};data['Teachers']=Teachers;this.setState({data})},
+                setDaysDescription :(DaysDescription) =>{let data ={...this.state.data};data['DaysDescription']=DaysDescription;this.setState({data})},
+                setTotalPeriods :(totalPeriods) =>{let data ={...this.state.data};data['totalPeriods']=totalPeriods;this.setState({data})},
+                setLabsAfter :(lab_periods_after) =>{let data ={...this.state.data};data['lab_periods_after']=lab_periods_after;this.setState({data})},
                 setResult:(result)=>this.setState({result})
                 
                 
@@ -72,9 +72,10 @@ changeKey(name){
                  <Row className="clearfix">
     <Col sm={2}>
       <Nav bsStyle="pills" stacked>
+      {console.log(context.state.data)}
         <NavItem eventKey="first">Sections Details</NavItem>
         <NavItem disabled= {context.state.data.Sections.length === 0} eventKey="second" >Teachers Details</NavItem>
-        <NavItem disabled= {context.state.data.Teachers.length === 0} eventKey="third" >Days Description</NavItem>
+        <NavItem disabled= {context.state.data['Teachers'].length === 0} eventKey="third" >Days Description</NavItem>
         <NavItem disabled= {context.state.data.DaysDescription.length === 0} eventKey="fourth" >Additional Details</NavItem>
       </Nav>
     </Col>

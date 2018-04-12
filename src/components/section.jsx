@@ -41,6 +41,7 @@ class Section extends React.Component {
     }
  
    SubjectsSubmit(context){
+      if(Object.keys(this.refs).length ===0  ) window.alert('Please fill Section data');else{
        for(let ref in this.refs){
        let child=this.refs[ref];
         let Subjects=child.GiveSubjects();
@@ -50,7 +51,7 @@ class Section extends React.Component {
        
        }
     this.props.changeKey('sections');
-     
+    }
    }
 
     onChange(name,value,i) {

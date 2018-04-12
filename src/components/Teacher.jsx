@@ -7,8 +7,7 @@ class Teacher extends React.Component {
   constructor(props) {
     super(props);
     this.state = { Teachers: [], open: [] };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
+       this.onChange = this.onChange.bind(this);
     this.SubjectTeachersSubmit = this.SubjectTeachersSubmit.bind(this);
   }
 
@@ -42,6 +41,7 @@ class Teacher extends React.Component {
     this.setState({ open });
   }
   SubjectTeachersSubmit(context) {
+    if(Object.keys(this.refs).length ===0  ) window.alert('Please fill Teachers data');else{
     for(let ref in this.refs){
       let child=this.refs[ref];
     let Subjects = child.GiveTeacherSubjects();
@@ -50,7 +50,7 @@ class Teacher extends React.Component {
     context.setTeachers(Teachers);
     }
     this.props.changeKey('Teachers');
-   
+  }
   }
 
   onChange(name, value, i) {
@@ -72,12 +72,7 @@ class Teacher extends React.Component {
     this.setState({ Teachers, open });
   }
 
-  handleSubmit(event) {
-    console.log("handlesubmit");
-    
-    //console.log(this.state.Teachers);
-    event.preventDefault();
-  }
+
 
   render() {
     return (
