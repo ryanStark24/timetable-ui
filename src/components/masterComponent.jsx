@@ -7,7 +7,7 @@ import AdditionalDetails from './additionalDetails';
 import TableUI from './tableUI';
 import {Tab,NavItem,Nav,Row,Col} from 'react-bootstrap';
 import {TimeTableContext} from './TimetableContext';
-// import {timetable} from './constants';
+import {timetable} from './constants';
 class DataProvider extends React.Component{
     constructor(props){
         super(props);
@@ -100,7 +100,10 @@ changeKey(name){
     </Col>
   </Row>
   </Tab.Container>
-  {/* <button onClick={()=>context.setResult(timetable)}>click kar bc</button> */}
+  <div>
+      <h4>Only for development Usage</h4>
+  <button onClick={()=>context.setResult(timetable)}>Timetable data demo</button>
+  </div>
   {context.state.result !== null? <TableUI timetable={context.state.result}/>:''}
      </React.Fragment> )}
 
